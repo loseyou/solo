@@ -81,22 +81,22 @@
         <servlet.version>3.1.0</servlet.version>
         <slf4j.version>1.7.5</slf4j.version>
         <jsoup.version>1.9.1</jsoup.version>
-        <flexmark.version>0.27.0</flexmark.version>
+        <flexmark.version>0.32.24</flexmark.version>
         <qiniu.version>7.0.4.1</qiniu.version>
-        <jetty.version>9.2.9.v20150224</jetty.version>
+        <jetty.version>9.2.7.v20150116</jetty.version>
         <commons-cli.version>1.3.1</commons-cli.version>
         <emoji-java.version>3.2.0</emoji-java.version>
         <jodd.version>3.6.6</jodd.version>
         <snakeyaml.version>1.18</snakeyaml.version>
 
         <!-- maven plugin -->
-        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
-        <maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-        <maven-license-plugin.version>1.9.0</maven-license-plugin.version>
+        <maven-license-plugin.version>1.6.0</maven-license-plugin.version>
         <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
-        <maven-min-plugin.version>1.0.3</maven-min-plugin.version>
+        <maven-min-plugin.version>1.0.0</maven-min-plugin.version>
         <!-- Unit Test -->
         <testng.version>6.1.1</testng.version>
         <!-- JDBC Drivers -->
@@ -224,6 +224,21 @@
 
     </dependencies>
 
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Releases</name>
+            <url>http://losemygirl.cn:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Snapshot</name>
+            <url>http://losemygirl.cn:8081/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
     <build>
         <resources>
             <resource>
@@ -345,56 +360,27 @@
                     -->
                 </executions>
             </plugin>
-
             <plugin>
-                <groupId>org.b3log</groupId>
-                <artifactId>maven-min-plugin</artifactId>
-                <version>${maven-min-plugin.version}</version>
-                <inherited>false</inherited>
-
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
                 <configuration>
-                    <suffix>.min</suffix>
-                    <!-- Common#MINI_POSTFIX_VALUE -->
-                    <adminJSs>
-                        <param>admin.js</param>
-                        <param>editor.js</param>
-                        <param>editorTinyMCE.js</param>
-                        <param>editorKindEditor.js</param>
-                        <param>editorCodeMirror.js</param>
-                        <param>tablePaginate.js</param>
-                        <param>article.js</param>
-                        <param>comment.js</param>
-                        <param>articleList.js</param>
-                        <param>draftList.js</param>
-                        <param>pageList.js</param>
-                        <param>others.js</param>
-                        <param>linkList.js</param>
-                        <param>preference.js</param>
-                        <param>pluginList.js</param>
-                        <param>userList.js</param>
-                        <param>categoryList.js</param>
-                        <param>commentList.js</param>
-                        <param>plugin.js</param>
-                        <param>main.js</param>
-                        <param>about.js</param>
-                    </adminJSs>
-
-                    <cssSourceDir>src/main/webapp/css</cssSourceDir>
-                    <cssTargetDir>src/main/webapp/css</cssTargetDir>
-
-                    <jsSourceDir>src/main/webapp/js</jsSourceDir>
-                    <jsTargetDir>src/main/webapp/js</jsTargetDir>
+                    <archive>
+                        <manifest>
+                            <useUniqueVersions>false</useUniqueVersions>
+                        </manifest>
+                    </archive>
                 </configuration>
-                <executions>
-                    <!--
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>min</goal>
-                        </goals>
-                    </execution>
-                    -->
-                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
             </plugin>
 
             <plugin>
@@ -416,34 +402,10 @@
 
         </plugins>
 
-        <finalName>solo</finalName>
+        <finalName>myblog</finalName>
     </build>
 
-    <profiles>
-        <profile>
-            <id>ci</id>
-        </profile>
 
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <repositories>
-                <repository>
-                    <id>aliyun</id>
-                    <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-                </repository>
-            </repositories>
-
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>aliyun</id>
-                    <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-                </pluginRepository>
-            </pluginRepositories>
-        </profile>
-    </profiles>
 
 </project>
 
